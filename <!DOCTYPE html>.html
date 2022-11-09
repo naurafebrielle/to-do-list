@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TO DO LIST PERTAMA NAURA</title>
+        <meta charset="utf-8">
+        <meta name="author" content="naurafebrielle">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <style>
+        body {
+          background-color:whitesmoke;
+          min-height: 70vh;
+          padding:20px; /* di punya org, 1rem*/
+          box-sizing: border-box;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          font-family:'sans-serif';
+          text-align:center;
+          font-size:130%;
+        }
+        @media only screen and (min-width: 500px) {
+          body {
+            min-height: 100vh;
+          }
+        }
+        .container { /* nyesuasin html nya, kita ganti dr isitodolist jd container */
+          width:100%;
+          height:auto; /* kita ganti jd auto, ngikutin pny org aja biar aman */
+          min-height: 500px;
+          max-width: 1250px;
+          min-width: 250px;
+          background-color: #C7cbcb;
+          background-size: 25px 25px;
+          border-radius: 20px;
+          box-shadow: 2px 2px 2px 2px #00000040;
+          padding: 1rem;
+          box-sizing: border-box;
+        }
+        .heading {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 16px;
+        }
+        .heading__title {
+          font-size:40px;
+          color:black;
+        }
+        @media only screen and (max-width: 500px) {
+          .heading_title{
+            font-size: 32px;
+          }
+        }
+        .form__input {
+          box-sizing: border-box;
+          background-color:#8c8c8c;
+          color: black;
+          border:none;
+          padding : 10px;
+          border-radius: 10px;
+          font-family:'sans-serif';
+          font-size: 17px;
+          width: 75%;
+          margin-bottom: 20px; 
+        }
+        .form__input:hover {
+          background-color:#9a9a9a;
+        }
+        .form__input:active , .form__input:focus {
+          outline:none;
+          background-color:#E6eaea;
+          border: solid 3px #393939;
+        }
+        @media only screen and (min-width: 500px) {
+          .form_input {
+            width: 60%;
+          }
+        }
+        .button {
+          background-color: #f1f1f1;          
+          border: none;
+          padding:0px;
+          font-family:'Gill Sans';
+          font-size: 25px;
+          border-radius:20px;
+          text-align: center;
+          /*ngikutin tutorial w3schools*/
+          outline: none;
+          box-shadow: 0 5px #999;
+        }
+        .button:hover {
+          background-color: #e4e4e4;
+        }
+        .button:active {
+          background-color: #e4e4e4;
+          transform: translateY(3px);
+          box-shadow: 0 0px #666
+        }
+        .button span {
+          color:#393939;
+          display: block;
+          padding: 6px 12px;
+          border: solid 2px transparent;
+        }
+     
+        .thingstodo { /* namanya nyesuain html */
+          text-align: left;
+        }
+        li {
+          position: relative;
+          padding: 3px;
+          list-style-type: disc;
+        }
+        li:hover {
+          text-decoration:line-through black;
+         }       
+     
+        </style>
+    </head>
+
+    <body>
+        <section class="container"> <!-- difference: di punyaku  "container" itu "isitodolist" -->
+            <div class="heading">
+                <!--di punya orang, di line ini harusnya ada image laptop buat heading-->
+                <h1 class="heading__title">To Do List</h1> <!--di punya orang, title nya To-Do List. underscorenya ditambah juga-->
+            </div>
+            <form class="form">
+                <div>
+                  <label class="form__label" for="todo"></label> <!--aku ganti for="task" jadi "todo" ngikutin pny orang. name jg aku ganti jd name="to-do" ngikutin. -->
+                  <input class="form__input" type="text" id="todo" name="to-do" size="35" maxlength="200" required> <!-- di pny orang, size nya 35 dan gaada max length-->
+                  <!-- di kedua line atas, jadinya aku pake double underscore (__) di form__label sm form__input, ngikutin yg punya orang-->
+                  <button class="button"><span>+</span></button> <!-- di pny orang, gaada type="submit". di tgh2 span nya juga tulisan submit bukan + -->
+                </div>
+            </form>
+            <div>
+             <ul class="thingstodo">  <!-- di pny org namanya toDoList bukan thingstodo-->
+             </ul>
+            </div>
+        </section>
+
+          <script>
+            (() => { 
+            let thingstodoArray = [];
+            const form = document.querySelector(".form");
+            const input = form.querySelector(".form__input");
+            const ul = document.querySelector(".thingstodo"); 
+      
+            form.addEventListener('submit', e => {
+              e.preventDefault();
+              let itemId = String(Date.now());
+              let toDoItem = input.value;
+              addItemToDOM(itemId , toDoItem);
+              addItemToArray(itemId, toDoItem);
+              input.value = '';
+            });
+            
+            ul.addEventListener('click', e => {
+              let id = e.target.getAttribute('data-id')
+              if (!id) return     
+              removeItemFromDOM(id);
+              removeItemFromArray(id);
+            });
+
+            function addItemToDOM(itemId, toDoItem) {    
+              const li = document.createElement('li')
+              li.setAttribute("data-id", itemId);
+              li.innerText = toDoItem
+              ul.appendChild(li);
+            }
+
+            function addItemToArray(itemId, toDoItem) {
+              thingstodoArray.push({ itemId, toDoItem});
+              console.log(thingstodoArray)
+            }
+            
+            function removeItemFromDOM(id) {
+              var li = document.querySelector('[data-id="' + id + '"]');
+              ul.removeChild(li);
+            }
+        
+            function removeItemFromArray(id) {
+              thingstodoArray = thingstodoArray.filter(item => item.itemId !== id);
+              console.log(thingstodoArray);
+            }
+          })();
+          </script>
+    </body>
